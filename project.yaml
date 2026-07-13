@@ -1,0 +1,123 @@
+id: 3
+name: rag-knowledge-base
+program:
+  id: ai-evaluation-retrieval
+  narrative_fit: Builds the reusable retrieval layer for the AI evaluation and RAG platform program, proving grounded context retrieval before LLM generation.
+  shared_assets:
+    - local hashing embedding provider
+    - retrieval benchmark fixture
+    - FastAPI RAG service shape
+status: benchmarked
+claim: Local-first RAG knowledge base with deterministic vector retrieval, FastAPI serving, and reproducible Recall@k benchmark.
+stack:
+  - python
+  - fastapi
+  - uvicorn
+  - local-hashing-embeddings
+  - json-vector-store
+  - docker
+language_profile:
+  primary: fastapi-backend
+  secondary: [python]
+  reason: The project exposes a typed API around retrieval and evaluation while keeping the core RAG use cases testable without HTTP.
+decision_brain:
+  agent_graph:
+    mode: principal-agent-orchestrated
+    source: .portfolio/decision-brain/agent-graph.yaml
+    handoff: sdd/agent-handoff.md
+    local_first_runtime: docker
+  reuse_improvement_loop:
+    source: .portfolio/decision-brain/reuse-improvement-loop.yaml
+    review_path: sdd/reuse-improvement-review.md
+    current_status: patch_now_applied_to_reuse_kit
+  principles:
+    coupling_rule: Domain and application code do not import FastAPI, Uvicorn, cloud SDKs, broker SDKs, or vector database SDKs.
+    solid: [srp, ocp, lsp, isp, dip]
+    simplicity_rule: Use deterministic local hashing embeddings before adding model downloads or external vector databases.
+    testability_rule: Retrieval and evaluation run through pure use cases with local fixtures and no HTTP server.
+    rejected_overengineering:
+      - mandatory qdrant container for the first benchmark
+      - mandatory sentence-transformers download for the default path
+      - broker or async worker before ingestion volume requires it
+  stack_profile: fastapi-backend
+  api_style: rest-http
+  messaging: none
+  cloud:
+    mode: none
+    local_provider: kumo
+    real_provider_target: none
+    emulated_services: []
+    adapter_rule: Future cloud/vector providers must stay behind ports and adapters, outside domain and use cases.
+    config_switch: PROVIDER=local
+    unsupported_behaviors:
+      - managed embedding billing
+      - managed vector database parity
+  database: json-vector-store
+  runtime: python-cli-and-fastapi-uvicorn
+  library_policy: Use FastAPI and Pydantic for the API; use standard-library retrieval core for reproducible local benchmarking.
+  record_path: sdd/technical-decision.md
+  rejected_options:
+    - option: qdrant-default
+      reason: Adds a service dependency before the first benchmark needs persistence scale.
+    - option: sentence-transformers-default
+      reason: Requires model download and makes the default demo less deterministic.
+    - option: graphql
+      reason: Query shape is command-oriented and benchmarked through a simple retrieval endpoint.
+architecture:
+  style: clean-architecture
+  reason: Retrieval use cases, embedding provider, vector store, CLI, and HTTP API need clear dependency direction while remaining simple enough for a focused portfolio proof.
+  problem_forces:
+    domain_complexity: medium
+    integration_pressure: medium
+    ui_state_complexity: none
+    data_or_ml_reproducibility: high
+    auditability: medium
+    throughput_or_async: low
+    independent_deployability: low
+  dependency_rule: Domain and application define behavior; infrastructure and interfaces depend inward.
+  boundaries:
+    - domain models and ports
+    - application chunking/retrieval/evaluation use cases
+    - infrastructure embedding and vector store adapters
+    - interfaces CLI and FastAPI
+  rejected_alternatives:
+    - style: mvc
+      reason: MVC would mix API concerns with retrieval/evaluation logic.
+    - style: microservices
+      reason: Distributed deployment would distract from the RAG and benchmark claim.
+    - style: event-driven
+      reason: No async ingestion or streaming requirement exists in the baseline.
+design_system:
+  tokens: .portfolio/design-system/tokens.yaml
+  readme_components:
+    - readme_header
+    - benchmark_card
+    - architecture_card
+    - references_table
+  diagram_required: true
+reuse:
+  kit_version: local
+  uses:
+    - catalog
+    - programs
+    - proficiency-map
+    - decision-brain
+    - agent-graph
+    - reuse-improvement-loop
+    - architecture
+    - language-profiles
+    - design-system
+    - sdd
+    - harness
+    - templates
+    - skills
+benchmark:
+  primary_metric: recall_at_3
+  unit: ratio
+  command: python -m rag_knowledge_base evaluate --output benchmarks/results/retrieval-baseline.json
+  result_path: benchmarks/results/retrieval-baseline.json
+release:
+  docker: Dockerfile
+  no_secret_default_path: true
+  readme_has_number: true
+  references_documented: true

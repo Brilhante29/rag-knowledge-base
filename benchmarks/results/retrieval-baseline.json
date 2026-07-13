@@ -1,0 +1,35 @@
+{
+  "project": "rag-knowledge-base",
+  "metric": "recall_at_3",
+  "value": 1.0,
+  "unit": "ratio",
+  "timestamp": "2026-07-13T23:26:31.580705Z",
+  "command": "python -m rag_knowledge_base evaluate --corpus data/fixtures/corpus.jsonl --questions data/fixtures/questions.jsonl --index data/runtime/index.json --top-k 3 --output /out/retrieval-baseline.json",
+  "repeat": 7,
+  "samples": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "summary": {
+    "recall_at_k": 1.0,
+    "avg_latency_ms": 1.1591438570966213,
+    "p95_latency_ms": 1.2183690014353488,
+    "cost_per_query_usd": 0.0,
+    "queries": 7.0,
+    "top_k": 3.0,
+    "indexed_documents": 8.0,
+    "indexed_chunks": 8.0,
+    "embedding_dimension": 384.0
+  },
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "embedding_provider": "local-hashing",
+    "vector_store": "json-vector-store"
+  }
+}

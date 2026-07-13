@@ -1,0 +1,7 @@
+{"id":"q1","question":"What are the steps in a retrieval augmented generation pipeline?","relevant_document_ids":["rag-pipeline"]}
+{"id":"q2","question":"How is recall at k measured for vector search?","relevant_document_ids":["vector-search","benchmarking"]}
+{"id":"q3","question":"How can the demo avoid paid cloud credentials?","relevant_document_ids":["local-first-cloud"]}
+{"id":"q4","question":"Which benchmark numbers prove this RAG knowledge base?","relevant_document_ids":["benchmarking"]}
+{"id":"q5","question":"Why keep framework and cloud SDKs outside use cases?","relevant_document_ids":["ports-adapters"]}
+{"id":"q6","question":"When should the reuse kit be improved during project work?","relevant_document_ids":["reuse-loop"]}
+{"id":"q7","question":"Why use hashing embeddings as the default provider?","relevant_document_ids":["hashing-embeddings"]}

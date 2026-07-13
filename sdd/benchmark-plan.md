@@ -2,40 +2,49 @@
 
 ## Hypothesis
 
-RAG do zero com busca vetorial, measured by recall_at_k, latency_ms, cost_per_query.
+A deterministic local vector retriever can provide a reproducible RAG baseline with Recall@3 >= 0.85, low single-query latency, and zero paid API cost on the included fixture.
 
 ## Command
 
-`ash
-pending
-`
+```powershell
+$env:PYTHONPATH = "src"
+python -m rag_knowledge_base evaluate --output benchmarks/results/retrieval-baseline.json
+```
 
 ## Environment
 
-- OS: pending
-- CPU: pending
-- RAM: pending
-- GPU: pending
-- Docker version: pending
-- Date: pending
+- OS: Linux container on Docker Desktop/WSL2 for baseline.
+- Python: 3.12.13 in Docker baseline.
+- GPU: not required.
+- External services: none.
+- Paid secrets: none.
+- Date: 2026-07-13.
 
 ## Inputs
 
-- fixture: pending
-- dataset size: pending
-- repetitions: pending
-- warmup: pending
+- Corpus: `data/fixtures/corpus.jsonl`
+- Questions: `data/fixtures/questions.jsonl`
+- Corpus size: 8 documents.
+- Evaluation size: 7 questions.
+- Top K: 3.
+- Embedding provider: local hashing, 384 dimensions.
 
 ## Metrics
 
 | Metric | Unit | Source | Why it matters |
 |---|---:|---|---|
-| recall_at_k, latency_ms, cost_per_query | pending | benchmark script | proves the repo claim |
+| recall_at_3 | ratio | evaluation script | proves relevant context appears in the retrieval set |
+| avg_latency_ms | ms | evaluation script | proves local query speed |
+| p95_latency_ms | ms | evaluation script | shows tail behavior on the fixture |
+| cost_per_query_usd | USD | static local provider cost | proves no paid API is required |
 
-## Result schema
+## Baseline Result
 
-Output must be JSON and include project, metric, alue, unit, 	imestamp, environment, and command.
+| Metric | Value | Unit |
+|---|---:|---|
+| recall_at_3 | 1.00 | ratio |
+| avg_latency_ms | 1.16 | ms |
+| p95_latency_ms | 1.22 | ms |
+| cost_per_query_usd | 0.000000 | USD |
 
-## Post angle
-
-#3 rag-knowledge-base: recall_at_k, latency_ms, cost_per_query as a reproducible portfolio benchmark.
+Result file: `benchmarks/results/retrieval-baseline.json`.
