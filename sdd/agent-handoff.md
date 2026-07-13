@@ -57,4 +57,4 @@ Project: `3 - rag-knowledge-base`
 - [x] README starts with number, claim, and benchmark
 - [x] references are documented
 - [x] no secret in files or git remote
-- [x] validation passes after Docker build
+- [x] validation passes after Docker build through `tools/validate-project.ps1`

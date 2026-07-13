@@ -82,6 +82,12 @@ The fixture lives in `data/fixtures/`:
 ## Validation
 
 ```powershell
+powershell -ExecutionPolicy Bypass -File tools/validate-project.ps1
+```
+
+Fast local loop:
+
+```powershell
 $env:PYTHONPATH = "src"
 python -m compileall -q src tests
 python -m unittest discover -s tests -v

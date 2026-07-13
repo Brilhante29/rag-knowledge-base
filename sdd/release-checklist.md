@@ -8,6 +8,7 @@
 - [x] Dockerfile exists.
 - [x] Benchmark JSON exists.
 - [x] Unit tests pass locally.
+- [x] Project validator passes with Docker build.
 - [x] No paid secret is required.
 - [x] References are documented.
 - [x] Docker build/run verified.
