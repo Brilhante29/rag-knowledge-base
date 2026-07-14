@@ -34,6 +34,27 @@ $requiredFiles = @(
 )
 foreach ($file in $requiredFiles) { Require-File $file }
 
+$reuseReviewPath = Join-Path $root "sdd\reuse-improvement-review.md"
+if (Test-Path -LiteralPath $reuseReviewPath -PathType Leaf) {
+  $reuseReview = Get-Content -Raw -LiteralPath $reuseReviewPath
+  if ($reuseReview -match "<id>|<project-name>") {
+    Add-Failure "Reuse improvement review still contains template placeholders"
+  }
+  if ($reuseReview.Contains('|  | `patch_now|backlog|reject` |')) {
+    Add-Failure "Reuse improvement review still contains the blank template finding row"
+  }
+  $requiredFinalGatePatterns = @(
+    "(?m)^- \[x\] Reusable improvements were patched or recorded\.$",
+    "(?m)^- \[x\] Project-specific implementation was not moved into the kit\.$",
+    "(?m)^- \[x\] Validation reflects .+\.$"
+  )
+  foreach ($pattern in $requiredFinalGatePatterns) {
+    if ($reuseReview -notmatch $pattern) {
+      Add-Failure "Reuse improvement review final gate is incomplete: $pattern"
+    }
+  }
+}
+
 $benchmarkFiles = @()
 $benchmarkDir = Join-Path $root "benchmarks\results"
 if (Test-Path -LiteralPath $benchmarkDir -PathType Container) {

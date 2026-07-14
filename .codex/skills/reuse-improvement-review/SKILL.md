@@ -28,7 +28,7 @@ Ask whether the current project revealed:
 
 ## Required Output
 
-Update `sdd/reuse-improvement-review.md`.
+Update `sdd/reuse-improvement-review.md`, remove template placeholders, replace the blank finding row, and mark all final gate checks that apply before publication.
 
 If an item is `patch_now`, update `portfolio-reuse-kit`, run validation, commit, and push before treating the dependent project as portfolio-ready.
 

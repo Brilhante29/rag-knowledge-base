@@ -24,7 +24,7 @@ Decision order:
 13. Create or update `project.yaml` from `templates/project.yaml`, including program, decision_brain, language profile, architecture, design system, benchmark, release, and reuse sections.
 14. Create or update `sdd/spec.md`, `sdd/benchmark-plan.md`, `sdd/architecture-decision.md`, and `sdd/technical-decision.md` before implementation.
 15. Create or update `sdd/agent-handoff.md` with subagent decisions, local-first runtime, benchmark handoff, risks, and release gates.
-16. Create or update `sdd/reuse-improvement-review.md` and patch/backlog/reject kit improvements.
+16. Create or update `sdd/reuse-improvement-review.md`, remove template placeholders, classify findings as patch_now/backlog/reject, and mark the final gate complete before publication.
 17. Keep the default path runnable without paid credentials.
 18. Ensure `README.md` starts with the project number, claim, and benchmark status/result.
 19. Include `REFERENCES.md` and state whether reuse is dependency, architecture, organization pattern, benchmark idea, or documentation pattern.
