@@ -47,7 +47,7 @@ $requiredFiles = @(
 )
 foreach ($file in $requiredFiles) { Require-File $file }
 
-$reuseReviewPath = Join-Path $root "sdd\reuse-improvement-review.md"
+$reuseReviewPath = Join-Path $root "sdd/reuse-improvement-review.md"
 if (Test-Path -LiteralPath $reuseReviewPath -PathType Leaf) {
   $reuseReview = Get-Content -Raw -LiteralPath $reuseReviewPath
   if ($reuseReview -match "<id>|<project-name>") {
@@ -69,7 +69,7 @@ if (Test-Path -LiteralPath $reuseReviewPath -PathType Leaf) {
 }
 
 $benchmarkFiles = @()
-$benchmarkDir = Join-Path $root "benchmarks\results"
+$benchmarkDir = Join-Path $root "benchmarks/results"
 if (Test-Path -LiteralPath $benchmarkDir -PathType Container) {
   $benchmarkFiles = @(Get-ChildItem -LiteralPath $benchmarkDir -Filter *.json -File)
 }
@@ -105,8 +105,9 @@ try {
 $legacy = ("ro" + "che" + "do")
 $patterns = @($legacy, ($legacy.Substring(0,1).ToUpper() + $legacy.Substring(1)))
 $searchFiles = Get-ChildItem -Path $root -Recurse -File | Where-Object {
-  $_.FullName -notmatch "\\.git\\" -and
-  $_.FullName -notmatch "\\data\\runtime\\" -and
+  $normalized = $_.FullName -replace "\\", "/"
+  $normalized -notmatch "/.git/" -and
+  $normalized -notmatch "/data/runtime/" -and
   $_.Extension -in @(".md", ".yaml", ".yml", ".json", ".ps1", ".py", ".js", ".ts", ".tsx", ".go", ".kt", ".java")
 }
 $forbidden = Select-String -Path $searchFiles.FullName -Pattern $patterns -SimpleMatch -ErrorAction SilentlyContinue
