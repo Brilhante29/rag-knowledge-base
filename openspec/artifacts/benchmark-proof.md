@@ -9,12 +9,10 @@
 
 ## Command
 
-`powershell
-python -m rag_knowledge_base evaluate --output benchmarks/results/retrieval-baseline.json
-`
+    python -m rag_knowledge_base evaluate --output benchmarks/results/retrieval-baseline.json
 
 ## Evidence
 
-Average latency: 1.16 ms. P95 latency: 1.22 ms.
+Average latency: 18.9 ms. P95 latency: 30.76 ms.
 
 The README/post number must come from the committed benchmark JSON, not from manual text.

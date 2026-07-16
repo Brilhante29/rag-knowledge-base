@@ -31,7 +31,7 @@
 
 ## Reuse Priority
 
-1. Use repo-local .codex/skills/ and .claude/skills/.
-2. Use .portfolio/ and upstream portfolio-reuse-kit.
+1. Use repo-local `.codex/skills/` and `.claude/skills/`.
+2. Use `.portfolio/` and upstream `portfolio-reuse-kit`.
 3. Use external repositories as references for organization, workflow, schemas, tests, benchmarks, and docs.
 4. Use external code only with license compatibility, attribution, and a decision record.

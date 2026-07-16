@@ -3,8 +3,8 @@
   "metric": "recall_at_3",
   "value": 1.0,
   "unit": "ratio",
-  "timestamp": "2026-07-13T23:26:31.580705Z",
-  "command": "python -m rag_knowledge_base evaluate --corpus data/fixtures/corpus.jsonl --questions data/fixtures/questions.jsonl --index data/runtime/index.json --top-k 3 --output /out/retrieval-baseline.json",
+  "timestamp": "2026-07-16T04:49:36.752617Z",
+  "command": "python -m rag_knowledge_base evaluate --corpus data/fixtures/corpus.jsonl --questions data/fixtures/questions.jsonl --index data/runtime/index.json --top-k 3 --output /app/benchmarks/results/retrieval-baseline.json",
   "repeat": 7,
   "samples": [
     1.0,
@@ -17,8 +17,8 @@
   ],
   "summary": {
     "recall_at_k": 1.0,
-    "avg_latency_ms": 1.1591438570966213,
-    "p95_latency_ms": 1.2183690014353488,
+    "avg_latency_ms": 18.90413928569095,
+    "p95_latency_ms": 30.756713007576764,
     "cost_per_query_usd": 0.0,
     "queries": 7.0,
     "top_k": 3.0,

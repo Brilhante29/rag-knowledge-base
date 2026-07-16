@@ -7,15 +7,15 @@ aligned (7/7)
 ## Reference Files
 
 - README.md
-- sdd\spec.md
-- sdd\technical-decision.md
+- sdd/spec.md
+- sdd/technical-decision.md
 
 ## Style Stats
 
 | Source | Words | Avg sentence words | Headings | Bullets | Numbers | Evidence words | Hype words |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| existing docs | 819 | 10 | 26 | 50 | 26 | 61 | 0 |
-| generated article | 186 | 9.1 | 1 | 0 | 8 | 16 | 0 |
+| existing docs | 819 | 10.2 | 26 | 50 | 26 | 61 | 0 |
+| generated article | 189 | 9.2 | 1 | 0 | 8 | 17 | 0 |
 
 ## Checks
 

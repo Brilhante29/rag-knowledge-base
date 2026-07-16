@@ -13,12 +13,12 @@ python -m rag_knowledge_base evaluate --output benchmarks/results/retrieval-base
 
 ## Environment
 
-- OS: Linux container on Docker Desktop/WSL2 for baseline.
-- Python: 3.12.13 in Docker baseline.
+- OS: Linux container on Docker Desktop/WSL2 for the committed baseline.
+- Python: 3.12.13 in the Docker baseline.
 - GPU: not required.
 - External services: none.
 - Paid secrets: none.
-- Date: 2026-07-13.
+- Date: 2026-07-16.
 
 ## Inputs
 
@@ -43,8 +43,8 @@ python -m rag_knowledge_base evaluate --output benchmarks/results/retrieval-base
 | Metric | Value | Unit |
 |---|---:|---|
 | recall_at_3 | 1.00 | ratio |
-| avg_latency_ms | 1.16 | ms |
-| p95_latency_ms | 1.22 | ms |
+| avg_latency_ms | 18.90 | ms |
+| p95_latency_ms | 30.76 | ms |
 | cost_per_query_usd | 0.000000 | USD |
 
 Result file: `benchmarks/results/retrieval-baseline.json`.

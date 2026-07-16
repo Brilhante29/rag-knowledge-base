@@ -2,20 +2,22 @@
 
 ## Planning
 
-- [x] Read project.yaml.
-- [x] Select component pack $componentPack.
+- [x] Read `project.yaml`.
+- [x] Select component pack `ai-evaluation-retrieval`.
 - [x] Generate OpenSpec-style artifacts.
 - [x] Generate article draft.
 - [x] Compare article voice against existing docs.
 
 ## Implementation
 
-- [ ] Update generated artifacts if the architecture or benchmark changes.
-- [ ] Keep local skills and .portfolio/ as primary.
-- [ ] Record any external reference in REFERENCES.md.
+- [x] Implement the measurable claim without breaking the recorded architecture boundary.
+- [x] Keep local skills and `.portfolio/` as primary.
+- [x] Record external references in `REFERENCES.md`.
+- [x] Commit benchmark JSON and the matching README number.
 
 ## Publication
 
 - [ ] Validate project.
+- [ ] Confirm published CI is green.
 - [ ] Confirm article uses committed benchmark result.
-- [ ] Confirm oice-check.md verdict is aligned or intentionally overridden.
+- [ ] Confirm `voice-check.md` verdict is aligned or intentionally overridden.

@@ -2,7 +2,7 @@
 
 **Claim:** Local-first RAG knowledge base with deterministic vector retrieval, FastAPI serving, and reproducible Recall@k benchmark.
 
-**Benchmark:** Recall@3 = `1.00`, average query latency = `1.16 ms`, p95 query latency = `1.22 ms`, cost/query = `$0.000000` on the included 8-document fixture.
+**Benchmark:** Recall@3 = `1.00`, average query latency = `18.90 ms`, p95 query latency = `30.76 ms`, cost/query = `$0.000000` on the included 8-document fixture.
 
 ## What It Proves
 
@@ -59,8 +59,8 @@ docker run --rm rag-knowledge-base evaluate --output /tmp/retrieval-baseline.jso
 | Metric | Value | Unit |
 |---|---:|---|
 | recall_at_3 | 1.00 | ratio |
-| avg_latency_ms | 1.16 | ms |
-| p95_latency_ms | 1.22 | ms |
+| avg_latency_ms | 18.90 | ms |
+| p95_latency_ms | 30.76 | ms |
 | cost_per_query_usd | 0.000000 | USD |
 
 Result file: `benchmarks/results/retrieval-baseline.json`.
