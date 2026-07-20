@@ -7,7 +7,7 @@ program:
     - local hashing embedding provider
     - retrieval benchmark fixture
     - FastAPI RAG service shape
-status: benchmarked
+status: published
 claim: Local-first RAG knowledge base with deterministic vector retrieval, FastAPI serving, and reproducible Recall@k benchmark.
 stack:
   - python
