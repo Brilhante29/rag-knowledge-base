@@ -29,8 +29,8 @@ class JsonVectorStore:
         scored.sort(key=lambda item: item.score, reverse=True)
         return scored[:top_k]
 
-    def save(self, path: str) -> None:
-        target = Path(path)
+    def save(self, path: Path) -> None:
+        target = path
         target.parent.mkdir(parents=True, exist_ok=True)
         payload = {
             "dimension": self.dimension,
@@ -42,13 +42,21 @@ class JsonVectorStore:
         target.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     @classmethod
-    def load(cls, path: str) -> "JsonVectorStore":
-        payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    def load(cls, path: Path) -> "JsonVectorStore":
+        payload = json.loads(path.read_text(encoding="utf-8"))
         records = []
         for record in payload["records"]:
             chunk_payload = record["chunk"]
             records.append((Chunk(**chunk_payload), [float(value) for value in record["vector"]]))
         return cls(dimension=int(payload["dimension"]), records=records)
+
+
+class JsonVectorStoreFactory:
+    def create(self, dimension: int) -> JsonVectorStore:
+        return JsonVectorStore(dimension=dimension)
+
+    def load(self, path: Path) -> JsonVectorStore:
+        return JsonVectorStore.load(path)
 
 
 def _dot(left: list[float], right: list[float]) -> float:

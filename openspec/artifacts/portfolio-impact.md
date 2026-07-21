@@ -4,26 +4,20 @@
 
 - Program id: `ai-evaluation-retrieval`
 - Program name: AI Evaluation and Retrieval Systems
-- Component pack: `ai-evaluation-retrieval`
+- Component role: local retrieval and measurement foundation.
 
 ## System Story
 
-Builds the reusable retrieval layer for the AI evaluation and RAG platform program, proving grounded context retrieval before LLM generation.
-
-This repository is not a standalone demo. It is one part of the AI Evaluation and Retrieval Systems system and should produce reusable fixtures, benchmark patterns, and decisions for later repositories.
+This repository supplies an injected retrieval service and a reproducible result contract for later RAG and evaluation components. It is not yet a cross-repository platform: no sibling repository imports its artifacts and no integration test spans the program.
 
 ## Proficiency Signal
 
-- Primary profile: `fastapi-backend`
-- Stack profile: `fastapi-backend`
-- Stack:
-- python
-- fastapi
-- uvicorn
-- local-hashing-embeddings
-- json-vector-store
-- docker
+- Clean Architecture and dependency inversion in Python.
+- FastAPI boundary security for file-processing endpoints.
+- Deterministic local embeddings and persisted vector search.
+- Explicit retrieval metric and latency methodology.
+- Docker-first, zero-secret execution.
 
 ## Post Angle
 
-Open with Recall@3 = 1.00, then explain why the architecture and local-first path make the result reproducible.
+Open with Recall@3 = 1.00, then show the corrected recovered/total formula, five-run evidence, DI boundary, and rooted API paths. State the small-fixture limitation explicitly.

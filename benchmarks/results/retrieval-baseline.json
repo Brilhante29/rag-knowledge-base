@@ -3,24 +3,345 @@
   "metric": "recall_at_3",
   "value": 1.0,
   "unit": "ratio",
-  "timestamp": "2026-07-13T23:26:31.580705Z",
-  "command": "python -m rag_knowledge_base evaluate --corpus data/fixtures/corpus.jsonl --questions data/fixtures/questions.jsonl --index data/runtime/index.json --top-k 3 --output /out/retrieval-baseline.json",
-  "repeat": 7,
+  "timestamp": "2026-07-21T18:57:22.738183Z",
+  "command": "python -m rag_knowledge_base evaluate --corpus data/fixtures/corpus.jsonl --questions data/fixtures/questions.jsonl --index data/runtime/index.json --top-k 3 --repetitions 5 --output /results/retrieval-baseline.json",
+  "repeat": 5,
   "samples": [
-    1.0,
-    1.0,
     1.0,
     1.0,
     1.0,
     1.0,
     1.0
   ],
+  "sample_definition": "Each sample is the macro mean of per-question Recall@k for one full evaluation repetition; warm-up queries are excluded.",
+  "latency_samples_ms": [
+    0.9290010057156906,
+    0.8448579974356107,
+    0.9059000003617257,
+    0.822911002615001,
+    0.7759289946989156,
+    0.9239399951184168,
+    0.8252960033132695,
+    0.966662002610974,
+    0.8256870059994981,
+    0.8522439966327511,
+    0.8748830005060881,
+    1.5982089971657842,
+    1.5335580028477125,
+    1.2147880042903125,
+    1.3382460019784048,
+    1.5167520032264292,
+    1.5433699954883195,
+    1.5207699980237521,
+    1.697242994850967,
+    1.7513100028736517,
+    1.8037810004898347,
+    2.240968999103643,
+    1.467314999899827,
+    1.7416789996786974,
+    1.5101879980647936,
+    1.4962880013627,
+    9.998317997087725,
+    1.6190130045288242,
+    1.8335970016778447,
+    1.6642809932818636,
+    1.9736800022656098,
+    1.7132070061052218,
+    1.8201790007879026,
+    1.7544360016472638,
+    1.9334529933985323
+  ],
+  "measurements": [
+    {
+      "repetition": 1,
+      "question_id": "q1",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.9290010057156906
+    },
+    {
+      "repetition": 1,
+      "question_id": "q2",
+      "relevant_documents": 2,
+      "recovered_relevant_documents": 2,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.8448579974356107
+    },
+    {
+      "repetition": 1,
+      "question_id": "q3",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.9059000003617257
+    },
+    {
+      "repetition": 1,
+      "question_id": "q4",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.822911002615001
+    },
+    {
+      "repetition": 1,
+      "question_id": "q5",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.7759289946989156
+    },
+    {
+      "repetition": 1,
+      "question_id": "q6",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.9239399951184168
+    },
+    {
+      "repetition": 1,
+      "question_id": "q7",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.8252960033132695
+    },
+    {
+      "repetition": 2,
+      "question_id": "q1",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.966662002610974
+    },
+    {
+      "repetition": 2,
+      "question_id": "q2",
+      "relevant_documents": 2,
+      "recovered_relevant_documents": 2,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.8256870059994981
+    },
+    {
+      "repetition": 2,
+      "question_id": "q3",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.8522439966327511
+    },
+    {
+      "repetition": 2,
+      "question_id": "q4",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 0.8748830005060881
+    },
+    {
+      "repetition": 2,
+      "question_id": "q5",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.5982089971657842
+    },
+    {
+      "repetition": 2,
+      "question_id": "q6",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.5335580028477125
+    },
+    {
+      "repetition": 2,
+      "question_id": "q7",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.2147880042903125
+    },
+    {
+      "repetition": 3,
+      "question_id": "q1",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.3382460019784048
+    },
+    {
+      "repetition": 3,
+      "question_id": "q2",
+      "relevant_documents": 2,
+      "recovered_relevant_documents": 2,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.5167520032264292
+    },
+    {
+      "repetition": 3,
+      "question_id": "q3",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.5433699954883195
+    },
+    {
+      "repetition": 3,
+      "question_id": "q4",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.5207699980237521
+    },
+    {
+      "repetition": 3,
+      "question_id": "q5",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.697242994850967
+    },
+    {
+      "repetition": 3,
+      "question_id": "q6",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.7513100028736517
+    },
+    {
+      "repetition": 3,
+      "question_id": "q7",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.8037810004898347
+    },
+    {
+      "repetition": 4,
+      "question_id": "q1",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 2.240968999103643
+    },
+    {
+      "repetition": 4,
+      "question_id": "q2",
+      "relevant_documents": 2,
+      "recovered_relevant_documents": 2,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.467314999899827
+    },
+    {
+      "repetition": 4,
+      "question_id": "q3",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.7416789996786974
+    },
+    {
+      "repetition": 4,
+      "question_id": "q4",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.5101879980647936
+    },
+    {
+      "repetition": 4,
+      "question_id": "q5",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.4962880013627
+    },
+    {
+      "repetition": 4,
+      "question_id": "q6",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 9.998317997087725
+    },
+    {
+      "repetition": 4,
+      "question_id": "q7",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.6190130045288242
+    },
+    {
+      "repetition": 5,
+      "question_id": "q1",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.8335970016778447
+    },
+    {
+      "repetition": 5,
+      "question_id": "q2",
+      "relevant_documents": 2,
+      "recovered_relevant_documents": 2,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.6642809932818636
+    },
+    {
+      "repetition": 5,
+      "question_id": "q3",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.9736800022656098
+    },
+    {
+      "repetition": 5,
+      "question_id": "q4",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.7132070061052218
+    },
+    {
+      "repetition": 5,
+      "question_id": "q5",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.8201790007879026
+    },
+    {
+      "repetition": 5,
+      "question_id": "q6",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.7544360016472638
+    },
+    {
+      "repetition": 5,
+      "question_id": "q7",
+      "relevant_documents": 1,
+      "recovered_relevant_documents": 1,
+      "recall_at_k": 1.0,
+      "latency_ms": 1.9334529933985323
+    }
+  ],
   "summary": {
     "recall_at_k": 1.0,
-    "avg_latency_ms": 1.1591438570966213,
-    "p95_latency_ms": 1.2183690014353488,
+    "avg_latency_ms": 1.6523411715752445,
+    "p95_latency_ms": 1.9736800022656098,
     "cost_per_query_usd": 0.0,
     "queries": 7.0,
+    "repetitions": 5.0,
+    "timed_query_samples": 35.0,
+    "warmup_queries": 7.0,
     "top_k": 3.0,
     "indexed_documents": 8.0,
     "indexed_chunks": 8.0,
@@ -28,8 +349,8 @@
   },
   "environment": {
     "python": "3.12.13",
-    "platform": "Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.41",
-    "embedding_provider": "local-hashing",
-    "vector_store": "json-vector-store"
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "embedding_provider": "HashingEmbeddingProvider",
+    "vector_store_factory": "JsonVectorStoreFactory"
   }
 }

@@ -1,15 +1,15 @@
 # Release Checklist
 
-- [x] README opens with project number, claim, and benchmark result.
-- [x] `project.yaml` is filled.
-- [x] SDD files are filled.
-- [x] `AGENTS.md` exists.
-- [x] `.portfolio/` snapshot exists.
-- [x] Dockerfile exists.
-- [x] Benchmark JSON exists.
-- [x] Unit tests pass locally.
-- [x] Project validator passes with Docker build.
-- [x] No paid secret is required.
-- [x] References are documented.
-- [x] Docker build/run verified.
-- [ ] GitHub push complete.
+- [x] README starts with project number, claim, and Docker benchmark.
+- [x] `project.yaml`, SDD, OpenSpec, and control files are synchronized.
+- [x] Domain ports and application dependency direction are enforced.
+- [x] API filesystem boundary is tested.
+- [x] Benchmark JSON is versioned and matches the README.
+- [x] Unit tests and pytest pass locally.
+- [x] Docker image builds and benchmark runs.
+- [x] Final project validator passes after all documentation changes.
+- [x] No paid secret is required by the default path.
+- [x] References and reuse decisions are documented.
+- [x] Focused commit created.
+- [ ] Branch pushed and GitHub Actions verified.
+- [ ] Status changed from `benchmarked` to `published`.

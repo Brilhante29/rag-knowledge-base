@@ -1,21 +1,20 @@
 # Tasks: rag-knowledge-base
 
-## Planning
+## Planning And Implementation
 
-- [x] Read project.yaml.
-- [x] Select component pack $componentPack.
-- [x] Generate OpenSpec-style artifacts.
-- [x] Generate article draft.
-- [x] Compare article voice against existing docs.
-
-## Implementation
-
-- [ ] Update generated artifacts if the architecture or benchmark changes.
-- [ ] Keep local skills and .portfolio/ as primary.
-- [ ] Record any external reference in REFERENCES.md.
+- [x] Select the `ai-evaluation-retrieval` component pack.
+- [x] Correct Recall@k and benchmark repetition semantics.
+- [x] Enforce application-to-port dependency direction.
+- [x] Add API filesystem confinement.
+- [x] Add tests for behavior and security.
+- [x] Generate Docker benchmark evidence.
+- [x] Synchronize README, SDD, OpenSpec, and project status.
+- [x] Record reuse-kit backlog without extracting project-specific code.
 
 ## Publication
 
-- [ ] Validate project.
-- [ ] Confirm article uses committed benchmark result.
-- [ ] Confirm oice-check.md verdict is aligned or intentionally overridden.
+- [x] Complete final project validator after documentation changes.
+- [x] Commit the focused correction.
+- [ ] Push the branch.
+- [ ] Confirm published CI is green.
+- [ ] Change status from `benchmarked` to `published` only with remote evidence.

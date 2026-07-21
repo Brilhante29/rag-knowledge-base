@@ -9,11 +9,10 @@ from rag_knowledge_base.application.use_cases import (
     DEFAULT_CORPUS,
     DEFAULT_INDEX,
     DEFAULT_QUESTIONS,
+    DEFAULT_REPETITIONS,
     DEFAULT_RESULT,
-    answer,
-    build_index,
-    evaluate_retrieval,
 )
+from rag_knowledge_base.infrastructure.composition import create_local_retrieval_service
 
 
 def main(argv: Sequence[str] | None = None) -> None:
@@ -35,26 +34,34 @@ def main(argv: Sequence[str] | None = None) -> None:
     evaluate.add_argument("--index", type=Path, default=DEFAULT_INDEX)
     evaluate.add_argument("--output", type=Path, default=DEFAULT_RESULT)
     evaluate.add_argument("--top-k", type=int, default=3)
+    evaluate.add_argument("--repetitions", type=int, default=DEFAULT_REPETITIONS)
 
     serve = subcommands.add_parser("serve")
     serve.add_argument("--host", default="0.0.0.0")
     serve.add_argument("--port", type=int, default=8000)
 
     args = parser.parse_args(argv)
+    service = create_local_retrieval_service()
 
     if args.command == "ingest":
-        print(json.dumps(build_index(args.corpus, args.index), indent=2))
+        print(json.dumps(service.build_index(args.corpus, args.index), indent=2))
     elif args.command == "query":
-        print(json.dumps(answer(args.question, index_path=args.index, top_k=args.top_k), indent=2))
+        print(
+            json.dumps(
+                service.answer(args.question, index_path=args.index, top_k=args.top_k),
+                indent=2,
+            )
+        )
     elif args.command == "evaluate":
         print(
             json.dumps(
-                evaluate_retrieval(
+                service.evaluate_retrieval(
                     args.corpus,
                     args.questions,
                     args.index,
                     args.output,
                     top_k=args.top_k,
+                    repetitions=args.repetitions,
                 ),
                 indent=2,
             )
