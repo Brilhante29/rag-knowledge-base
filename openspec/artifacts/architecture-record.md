@@ -6,32 +6,20 @@
 - Stack profile: `fastapi-backend`
 - API style: `rest-http`
 - Messaging: `none`
-- Database/runtime: `json-vector-store` / `python-cli-and-fastapi-uvicorn`
-
-## Reason
-
-Retrieval use cases, embedding provider, vector store, CLI, and HTTP API need clear dependency direction while remaining simple enough for a focused portfolio proof.
+- Storage/runtime: `json-vector-store` / `python-cli-and-fastapi-uvicorn`
 
 ## Dependency Direction
 
-Domain and application define behavior; infrastructure and interfaces depend inward.
+`RetrievalService` depends on domain ports. `HashingEmbeddingProvider` and `JsonVectorStoreFactory` implement those contracts and are selected by `infrastructure/composition.py`. Interfaces call the composed service; application code never constructs adapters.
 
-## Boundaries
+## Security Boundary
 
-- domain models and ports
-- application chunking/retrieval/evaluation use cases
-- infrastructure embedding and vector store adapters
-- interfaces CLI and FastAPI
-
-## Library Policy
-
-Use FastAPI and Pydantic for the API; use standard-library retrieval core for reproducible local benchmarking.
+FastAPI treats path input as untrusted and resolves safe relative paths below `RAG_DATA_ROOT` or `RAG_RESULT_ROOT`. CLI paths remain explicit because the local operator is trusted.
 
 ## Principle Check
 
-- SRP: keep benchmark, API, use cases, and adapters separate.
-- OCP: new providers must be adapters, not domain rewrites.
-- LSP: replacement providers must preserve observable behavior.
-- ISP: ports stay narrow.
-- DIP: application depends on behavior, not infrastructure.
-- KISS/YAGNI: leave out anything that does not improve the benchmark.
+- SRP: retrieval, path policy, adapters, composition, and transport are separate.
+- OCP/DIP: providers are replaceable through injected ports.
+- LSP: dimension compatibility is checked before search.
+- ISP: ports expose only embedding and vector-store lifecycle behavior.
+- KISS/YAGNI: no managed services, broker, generation, or auth in this proof.

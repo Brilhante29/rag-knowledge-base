@@ -1,28 +1,35 @@
-# Change Design: baseline
+# Change Design: auditable retrieval baseline
 
 ## Decision
 
-- Architecture: clean-architecture
-- Stack: python
-- API style: rest-http
-- Messaging: none
-- Cloud mode: local-first; real providers stay behind adapters.
+- Architecture: Clean Architecture with injected ports and an infrastructure composition root.
+- Stack: Python, FastAPI, local hashing embeddings, JSON vector store.
+- API style: REST/HTTP plus trusted local CLI.
+- Messaging/cloud: none; default remains local-first.
 
 ## Boundaries
 
-- Domain and use cases define behavior.
-- Infrastructure implements ports.
-- Interfaces expose the contract and benchmark command.
+- Domain owns `EmbeddingProvider`, `VectorStore`, and `VectorStoreFactory`.
+- Application owns retrieval, indexing, Recall@k, and measurement policy.
+- Infrastructure owns adapter creation/loading and local composition.
+- FastAPI owns untrusted path validation under configured roots.
+- CLI may accept explicit paths because it runs as a trusted local process.
+
+## Benchmark Design
+
+Warm up each question once, then run five complete repetitions. Compute each question's recovered/total Recall@3, macro-average by repetition, and retain every numerator, denominator, recall, and latency.
 
 ## Engineering Rules
 
-- Decouple policy from mechanism.
-- Apply SRP, OCP, LSP, ISP, and DIP at the boundaries that matter.
-- Prefer KISS and YAGNI over speculative abstractions.
-- Keep replacement adapters behaviorally compatible with the same port (LSP).
-- Test use cases without HTTP, cloud SDKs, brokers, or UI.
+- Enforce DIP with constructor injection.
+- Preserve LSP by checking embedding/store dimensions.
+- Keep ports narrow and lifecycle creation in a factory.
+- Reject absolute/traversal paths before filesystem access.
+- Do not describe questions as repetitions.
+- State that the fixture proves execution, not production quality.
 
 ## Rejected Alternatives
 
-Record the architecture, library, transport, broker, or cloud alternatives
-that were considered and why they do not improve this claim.
+- Concrete adapter construction in use cases: violates DIP.
+- Path allowlists of exact filenames: too rigid for local datasets; rooted relative paths provide the needed boundary.
+- Adding Qdrant or model downloads: unrelated to correcting the audited proof.

@@ -6,28 +6,27 @@ Local-first RAG knowledge base with deterministic vector retrieval, FastAPI serv
 
 ## Problem
 
-Builds the reusable retrieval layer for the AI evaluation and RAG platform program, proving grounded context retrieval before LLM generation.
+Provide the retrieval component for AI Evaluation and Retrieval Systems with an auditable metric and replaceable adapters.
 
 ## In Scope
 
-- Use the selected component pack: `ai-evaluation-retrieval`.
-- Keep the project under the AI Evaluation and Retrieval Systems program.
-- Preserve the benchmark contract: `recall_at_3` in `benchmarks/results/retrieval-baseline.json`.
-- Keep the default path local-first and reproducible.
+- Preserve `recall_at_3` in `benchmarks/results/retrieval-baseline.json`.
+- Compute recovered/total recall for every question.
+- Keep local provider/store selection behind ports.
+- Confine HTTP paths to configured roots.
+- Record repetitions and timed samples explicitly.
 
 ## Out Of Scope
 
-- Paid credentials for the default demo.
-- External infrastructure that is not required by the benchmark.
-- Replacing local portfolio skills with external components silently.
+- Production-quality claims from the fixture.
+- Paid credentials, managed infrastructure, LLM generation, and silent external components.
 
 ## Default Demo Path
 
-- Status: benchmarked
-- Runtime: python-cli-and-fastapi-uvicorn
-- Benchmark command: `python -m rag_knowledge_base evaluate --output benchmarks/results/retrieval-baseline.json`
+- Status: benchmarked.
+- Runtime: Python CLI and FastAPI/Uvicorn in Docker.
+- Benchmark: 5 repetitions, 35 timed queries, Recall@3 1.00.
 
-## Public Proof
+## Publication Rule
 
-- Benchmark: Recall@3 = 1.00
-- Result path: `benchmarks/results/retrieval-baseline.json`
+Do not change status to `published` until the branch is pushed and remote CI success is verified.

@@ -2,49 +2,43 @@
 
 ## Hypothesis
 
-A deterministic local vector retriever can provide a reproducible RAG baseline with Recall@3 >= 0.85, low single-query latency, and zero paid API cost on the included fixture.
+The deterministic local retriever reaches Recall@3 >= 0.85 at zero paid API cost on the included fixture.
 
 ## Command
 
 ```powershell
-$env:PYTHONPATH = "src"
-python -m rag_knowledge_base evaluate --output benchmarks/results/retrieval-baseline.json
+$resultDir = (Resolve-Path benchmarks/results).Path
+docker run --rm -v "${resultDir}:/results" rag-knowledge-base evaluate --repetitions 5 --output /results/retrieval-baseline.json
 ```
 
 ## Environment
 
-- OS: Linux container on Docker Desktop/WSL2 for the committed baseline.
-- Python: 3.12.13 in the Docker baseline.
-- GPU: not required.
-- External services: none.
-- Paid secrets: none.
-- Date: 2026-07-16.
+- Runtime: Linux Docker image on Docker Desktop/WSL2.
+- Python: 3.12.13.
+- GPU/external services/paid secrets: none.
+- Recorded: 2026-07-21.
 
 ## Inputs
 
-- Corpus: `data/fixtures/corpus.jsonl`
-- Questions: `data/fixtures/questions.jsonl`
-- Corpus size: 8 documents.
-- Evaluation size: 7 questions.
+- 8 corpus documents.
+- 7 questions; 8 total relevance labels because q2 has two relevant documents.
 - Top K: 3.
-- Embedding provider: local hashing, 384 dimensions.
+- Local hashing embeddings: 384 dimensions.
+- JSON vector store loaded once before timing.
 
-## Metrics
+## Measurement
 
-| Metric | Unit | Source | Why it matters |
-|---|---:|---|---|
-| recall_at_3 | ratio | evaluation script | proves relevant context appears in the retrieval set |
-| avg_latency_ms | ms | evaluation script | proves local query speed |
-| p95_latency_ms | ms | evaluation script | shows tail behavior on the fixture |
-| cost_per_query_usd | USD | static local provider cost | proves no paid API is required |
+Each question's Recall@k is `|relevant retrieved| / |relevant|`. One warm-up pass is excluded. Five measured repetitions produce five macro Recall@3 samples and 35 query-latency samples. The JSON retains every per-question numerator, denominator, recall, repetition, and latency.
 
 ## Baseline Result
 
 | Metric | Value | Unit |
 |---|---:|---|
 | recall_at_3 | 1.00 | ratio |
-| avg_latency_ms | 18.90 | ms |
-| p95_latency_ms | 30.76 | ms |
+| avg_latency_ms | 1.65 | ms |
+| p95_latency_ms | 1.97 | ms |
 | cost_per_query_usd | 0.000000 | USD |
+| repetitions | 5 | runs |
+| timed_query_samples | 35 | queries |
 
-Result file: `benchmarks/results/retrieval-baseline.json`.
+This small fixture validates the pipeline and metric implementation, not production retrieval quality. Result: `benchmarks/results/retrieval-baseline.json`.

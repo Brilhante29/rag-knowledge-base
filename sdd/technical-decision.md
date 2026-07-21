@@ -3,44 +3,38 @@
 ## Stack
 
 - Python package under `src/`.
-- FastAPI for typed HTTP API and OpenAPI docs.
+- FastAPI/Pydantic for typed HTTP and OpenAPI.
 - Uvicorn for ASGI serving.
-- Standard-library hashing embeddings for default local retrieval.
-- JSON vector store for transparent deterministic persistence.
-- Docker for the runnable path.
+- Deterministic hashing embeddings and JSON vector persistence.
+- Docker for the no-secret runnable path.
 
-## API Style
+## Ports And Composition
 
-REST/HTTP plus CLI.
+`RetrievalService` depends on `EmbeddingProvider` and `VectorStoreFactory`. `JsonVectorStoreFactory` and `HashingEmbeddingProvider` are selected only in `infrastructure/composition.py`. This preserves DIP and lets tests inject collaborators without framework or storage setup.
 
-REST is enough because the workload is command-oriented: ingest, query, evaluate. GraphQL is rejected because flexible nested reads are not the problem and would add resolver/security complexity without improving Recall@k.
+The vector-store port exposes dimension, upsert, search, and save. The factory owns create/load lifecycle because loading is adapter behavior, not application policy.
 
-## Messaging
+## API Security
 
-No broker.
+`ApiPathPolicy` resolves normalized relative paths below configured roots. It rejects absolute Windows/POSIX paths, dot segments, traversal, and resolved paths outside the root. Data/index operations use `RAG_DATA_ROOT`; benchmark output uses `RAG_RESULT_ROOT`.
 
-The baseline has synchronous ingestion and evaluation. RabbitMQ, Kafka, Redis Streams, and NATS are rejected until async jobs, replay, routing, DLQ, or streaming are part of the benchmark.
+## Benchmark Method
 
-## Cloud
+- Warm the store with each of seven questions once; exclude warm-up from timing.
+- Execute five complete repetitions.
+- Compute per-question Recall@3 as recovered relevant divided by total relevant.
+- Macro-average question recall within each repetition and across repetitions.
+- Record five recall samples, 35 latency samples, and per-question measurements.
+- Load the index once before timed retrieval so latency measures embedding plus search, not file loading.
 
-No cloud in the default path.
+## API Style And Messaging
 
-Kumo remains the preferred local-first layer if AWS-like services are added later. Real cloud providers must be adapters behind ports and cannot enter domain/use-case code.
+REST plus CLI remains sufficient for synchronous ingest/query/evaluate commands. GraphQL, gRPC, brokers, and cloud services do not improve the current claim.
 
-## Embeddings And Vector Store
+## Principles
 
-The default provider is `HashingEmbeddingProvider`, a deterministic local vectorizer. This keeps the benchmark reproducible, offline, and free.
-
-Qdrant and sentence-transformers are useful next adapters, but they are not mandatory for the first proof because they introduce a service or model download before the baseline needs it.
-
-## SOLID And Coupling
-
-- SRP: chunking, embedding, vector storage, evaluation, CLI, and API have separate modules.
-- OCP: new embedding/vector adapters can be added without changing use-case contracts.
-- LSP: future providers must return vectors/search results with the same semantics.
-- ISP: ports are narrow: embed, upsert, search, save/load.
-- DIP: application depends on behavior, not framework or external services.
-
-## KISS/YAGNI
-
-No auth, broker, external vector DB, model download, or LLM generation until a benchmark requires it.
+- SRP: path policy, retrieval policy, composition, adapters, and transport are separate.
+- OCP/DIP: new providers enter through ports and composition.
+- LSP: stores preserve dimension, persistence, and search semantics.
+- ISP: ports expose only retrieval lifecycle behavior.
+- KISS/YAGNI: no auth, broker, external database, model download, or generation layer yet.

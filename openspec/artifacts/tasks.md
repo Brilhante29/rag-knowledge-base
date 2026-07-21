@@ -1,23 +1,20 @@
 # Tasks: rag-knowledge-base
 
-## Planning
+## Planning And Implementation
 
-- [x] Read `project.yaml`.
-- [x] Select component pack `ai-evaluation-retrieval`.
-- [x] Generate OpenSpec-style artifacts.
-- [x] Generate article draft.
-- [x] Compare article voice against existing docs.
-
-## Implementation
-
-- [x] Implement the measurable claim without breaking the recorded architecture boundary.
-- [x] Keep local skills and `.portfolio/` as primary.
-- [x] Record external references in `REFERENCES.md`.
-- [x] Commit benchmark JSON and the matching README number.
+- [x] Select the `ai-evaluation-retrieval` component pack.
+- [x] Correct Recall@k and benchmark repetition semantics.
+- [x] Enforce application-to-port dependency direction.
+- [x] Add API filesystem confinement.
+- [x] Add tests for behavior and security.
+- [x] Generate Docker benchmark evidence.
+- [x] Synchronize README, SDD, OpenSpec, and project status.
+- [x] Record reuse-kit backlog without extracting project-specific code.
 
 ## Publication
 
-- [ ] Validate project.
+- [x] Complete final project validator after documentation changes.
+- [x] Commit the focused correction.
+- [ ] Push the branch.
 - [ ] Confirm published CI is green.
-- [ ] Confirm article uses committed benchmark result.
-- [ ] Confirm `voice-check.md` verdict is aligned or intentionally overridden.
+- [ ] Change status from `benchmarked` to `published` only with remote evidence.

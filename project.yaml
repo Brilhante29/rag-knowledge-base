@@ -7,7 +7,8 @@ program:
     - local hashing embedding provider
     - retrieval benchmark fixture
     - FastAPI RAG service shape
-status: published
+    - rooted API path policy
+status: benchmarked
 claim: Local-first RAG knowledge base with deterministic vector retrieval, FastAPI serving, and reproducible Recall@k benchmark.
 stack:
   - python
@@ -114,7 +115,7 @@ reuse:
 benchmark:
   primary_metric: recall_at_3
   unit: ratio
-  command: python -m rag_knowledge_base evaluate --output benchmarks/results/retrieval-baseline.json
+  command: python -m rag_knowledge_base evaluate --repetitions 5 --output benchmarks/results/retrieval-baseline.json
   result_path: benchmarks/results/retrieval-baseline.json
 release:
   docker: Dockerfile
