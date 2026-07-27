@@ -9,10 +9,11 @@ Completion requires evidence, not intent.
 - [x] SOLID, DRY, KISS, YAGNI, and coupling decisions are explicit.
 - [x] Tests cover retrieval, fractional recall, DI, benchmark shape, and API path attacks.
 - [x] Docker image builds and produces the documented benchmark locally.
-- [ ] A clean remote checkout and GitHub Actions run are verified.
-      Blocked: `git push` requires user authorization in this environment.
-      Branch `codex/rag-knowledge-base/publication-gates` is committed locally
-      and ready; push triggers `validate` via `on: push`.
+- [x] A clean remote checkout and GitHub Actions run are verified.
+      Evidence (2026-07-27): branch `codex/rag-knowledge-base/publication-gates`
+      pushed; workflow `validate` ran on a clean GitHub-hosted checkout and
+      concluded `success` —
+      https://github.com/Brilhante29/rag-knowledge-base/actions/runs/30289588132
 - [x] CI actions/dependencies are immutable rather than moving tags/ranges.
       Evidence (2026-07-27): `validate.yml` pins actions/checkout to
       11bd71901bbe5b1630ceea73d27597364c9af683 (v4.2.2) and
