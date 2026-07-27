@@ -10,7 +10,16 @@ Completion requires evidence, not intent.
 - [x] Tests cover retrieval, fractional recall, DI, benchmark shape, and API path attacks.
 - [x] Docker image builds and produces the documented benchmark locally.
 - [ ] A clean remote checkout and GitHub Actions run are verified.
-- [ ] CI actions/dependencies are immutable rather than moving tags/ranges.
+      Blocked: `git push` requires user authorization in this environment.
+      Branch `codex/rag-knowledge-base/publication-gates` is committed locally
+      and ready; push triggers `validate` via `on: push`.
+- [x] CI actions/dependencies are immutable rather than moving tags/ranges.
+      Evidence (2026-07-27): `validate.yml` pins actions/checkout to
+      11bd71901bbe5b1630ceea73d27597364c9af683 (v4.2.2) and
+      actions/setup-python to 0b93645e9fea7318ecaed2b359559ac225c90a2b
+      (v5.3.0); both SHAs verified against the upstream tag refs via the
+      GitHub API. Workflow now declares `permissions: contents: read` and
+      `timeout-minutes: 15`.
 - [x] Benchmark JSON records sample definition, repetitions, warm-up, and 35 timed queries.
 - [x] README, benchmark JSON, SDD, OpenSpec, and `project.yaml` agree on Recall@3.
 - [x] Reuse review records kit backlog and rejected extraction.
