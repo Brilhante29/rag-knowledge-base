@@ -8,7 +8,7 @@ program:
     - retrieval benchmark fixture
     - FastAPI RAG service shape
     - rooted API path policy
-status: published
+status: benchmarked
 claim: Local-first RAG knowledge base with deterministic vector retrieval, FastAPI serving, and reproducible Recall@k benchmark.
 stack:
   - python
