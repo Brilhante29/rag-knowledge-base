@@ -2,7 +2,7 @@
 
 **Claim:** Local-first RAG knowledge base with deterministic vector retrieval, FastAPI serving, and reproducible Recall@k benchmark.
 
-**Benchmark:** Recall@3 = `1.00`, average query latency = `1.65 ms`, p95 query latency = `1.97 ms`, cost/query = `$0.000000` on the included 8-document fixture.
+**Benchmark:** Recall@3 = `1.00`, average query latency = `0.3175 ms`, p95 query latency = `0.4523 ms`, cost/query = `$0.000000` on the included 8-document fixture.
 
 ## What It Proves
 
@@ -79,15 +79,15 @@ The CLI is a trusted local interface and may receive explicit local paths.
 | Metric | Value | Unit |
 |---|---:|---|
 | recall_at_3 | 1.00 | ratio |
-| avg_latency_ms | 1.65 | ms |
-| p95_latency_ms | 1.97 | ms |
+| avg_latency_ms | 0.3175 | ms |
+| p95_latency_ms | 0.4523 | ms |
 | cost_per_query_usd | 0.000000 | USD |
 | repetitions | 5 | runs |
 | timed_query_samples | 35 | queries |
 
 Each repetition evaluates all seven questions. Recall@k is computed for each question as the number of relevant documents recovered in the top k divided by that question's total relevant documents; the primary metric is the macro mean across questions and repetitions. Seven warm-up queries are excluded from latency samples.
 
-Result file: `benchmarks/results/retrieval-baseline.json`. Environment: Python 3.12.13 in the Linux Docker image on Docker Desktop/WSL2.
+Publication result: `benchmarks/publication/retrieval-baseline-v2.json`. The V1 execution result remains at `benchmarks/results/retrieval-baseline.json`. Environment: Python 3.12.13 in the Linux Docker image on Docker Desktop/WSL2; the V2 artifact includes the exact source commit, image digest, lock digest, and CI provenance.
 
 ## Dataset
 

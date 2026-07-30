@@ -17,5 +17,5 @@
 - [x] Commit the focused correction.
 - [x] Push the branch.
 - [x] Confirm published CI is green for the exact head.
-- [ ] Generate and validate the V2 publication result.
-- [ ] Change status from `benchmarked` to `published` only with remote evidence.
+- [x] Generate and validate the V2 publication result.
+- [x] Change status from `benchmarked` to `published` only with remote evidence.
