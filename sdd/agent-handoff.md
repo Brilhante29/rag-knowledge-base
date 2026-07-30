@@ -1,7 +1,7 @@
 # Agent Handoff
 
 Project: `3 - rag-knowledge-base`
-Status: `benchmarked`
+Status: `publication-v2`
 
 ## Current State
 
@@ -11,14 +11,13 @@ Status: `benchmarked`
 - Application depends on embedding/vector-store ports through `RetrievalService`.
 - HTTP filesystem access is confined by `ApiPathPolicy`.
 - Local test suite: 6 tests covering behavior, DI, metric semantics, and path security.
+- Exact-head GitHub Actions run `30329376065` passed for `e8d00dff29be52340f5c5913b60aa15aa129222f`.
 
 ## Continue From Here
 
-1. Run `powershell -ExecutionPolicy Bypass -File tools/validate-project.ps1`.
-2. Review `git diff --check` and the benchmark JSON.
-3. Commit locally.
-4. Push the branch and verify GitHub Actions before changing status to `published`.
-5. Add publication evidence instead of inferring remote success from local files.
+1. Run `python tools/benchmark_v2.py` from a clean tree.
+2. Validate the V2 artifact and add `.portfolio-control/PUBLICATION_EVIDENCE.json`.
+3. Change status to `published`, commit, push, and verify the exact head.
 
 ## Decisions
 
@@ -27,10 +26,10 @@ Status: `benchmarked`
 - Local hashing/JSON adapters are defaults, not hard-coded use-case dependencies.
 - API accepts safe relative paths; CLI remains a trusted local interface.
 - Recall is macro-averaged from per-question recovered/total ratios.
+- V1 execution evidence and V2 publication provenance remain separate contracts.
 
 ## Open Risks
 
 - The fixture is intentionally easy and small.
-- Dependencies and GitHub Actions are range/tag pinned, not immutable digest/SHA pinned.
 - No model-backed embedding or production vector-store adapter exists yet.
 - No cross-repository integration test exists for the wider AI Evaluation and Retrieval program.

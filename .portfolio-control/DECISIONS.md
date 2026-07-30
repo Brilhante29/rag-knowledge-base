@@ -20,3 +20,15 @@
 - **DRY:** sample semantics are recorded once in code/JSON and mirrored in documentation.
 - **KISS/YAGNI:** no broker, cloud, external vector DB, model download, auth, or generation layer yet.
 - **Law of Demeter:** interfaces call the service; the service calls direct ports.
+
+## i-have-adhd
+
+- Source: `https://github.com/ayghri/i-have-adhd`
+- Skill: `skills/i-have-adhd/SKILL.md`
+- Commit: `07684c4ab625dd7d1ea6e99e065f60bc0ac6a1ba`
+- Scope: workspace
+- Status: active
+
+## Publication Evidence Decision
+
+Keep the local V1 benchmark result and the contract-valid V2 publication result separate. The central kit now supports `benchmark.publication_result_path`; this prevents a V2 artifact from being weakened with legacy fields solely to satisfy a single-path validator.

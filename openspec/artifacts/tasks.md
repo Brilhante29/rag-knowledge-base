@@ -15,6 +15,7 @@
 
 - [x] Complete final project validator after documentation changes.
 - [x] Commit the focused correction.
-- [ ] Push the branch.
-- [ ] Confirm published CI is green.
+- [x] Push the branch.
+- [x] Confirm published CI is green for the exact head.
+- [ ] Generate and validate the V2 publication result.
 - [ ] Change status from `benchmarked` to `published` only with remote evidence.

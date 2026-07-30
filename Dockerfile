@@ -5,10 +5,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-COPY pyproject.toml ./
+COPY pyproject.toml requirements.lock ./
 COPY src ./src
 
-RUN pip install --no-cache-dir . \
+RUN pip install --no-cache-dir --requirement requirements.lock \
+    && pip install --no-cache-dir --no-deps . \
     && addgroup --system app \
     && adduser --system --ingroup app app
 

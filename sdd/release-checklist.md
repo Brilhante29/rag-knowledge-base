@@ -11,5 +11,6 @@
 - [x] No paid secret is required by the default path.
 - [x] References and reuse decisions are documented.
 - [x] Focused commit created.
-- [ ] Branch pushed and GitHub Actions verified.
+- [x] Branch pushed and GitHub Actions verified for the exact head `e8d00dff29be52340f5c5913b60aa15aa129222f`.
 - [ ] Status changed from `benchmarked` to `published`.
+- [ ] Publication benchmark V2 is generated and validated.

@@ -1,0 +1,29 @@
+kit_version: "portfolio-reuse-kit@16a939621cbb37256ab85ba39986110844b154e5"
+
+consumed:
+  - source: "decision-brain/agent-graph.yaml"
+    version: "16a939621cbb37256ab85ba39986110844b154e5"
+    files: ["AGENTS.md", "CLAUDE.md", "sdd/agent-handoff.md"]
+  - source: "contracts/project.schema.json"
+    version: "16a939621cbb37256ab85ba39986110844b154e5"
+    files: ["project.yaml"]
+  - source: "contracts/benchmark-result.schema.json"
+    version: "16a939621cbb37256ab85ba39986110844b154e5"
+    files: ["benchmarks/results/retrieval-baseline.json"]
+  - source: "templates/portfolio-control/DECISION_CONTEXT.md"
+    version: "working-tree"
+    files: [".portfolio-control/DECISION_CONTEXT.md"]
+
+local_overrides:
+  - path: "src/rag_knowledge_base/infrastructure/embeddings/hashing.py"
+    reason: "The deterministic hashing adapter is the domain-specific retrieval baseline."
+  - path: "tools/benchmark_v2.py"
+    reason: "The producer composes the RAG benchmark with Docker provenance; its domain behavior stays local."
+
+contributed_back:
+  - source: "central publication_result_path validator"
+    target: "portfolio-reuse-kit/tools/validate-portfolio.ps1"
+    status: "applied"
+  - source: "publication benchmark path in project schema/template"
+    target: "portfolio-reuse-kit/contracts/project.schema.json"
+    status: "applied"

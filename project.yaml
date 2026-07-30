@@ -1,5 +1,6 @@
 id: 3
 name: rag-knowledge-base
+manifest_version: 2
 program:
   id: ai-evaluation-retrieval
   narrative_fit: Builds the reusable retrieval layer for the AI evaluation and RAG platform program, proving grounded context retrieval before LLM generation.
@@ -117,6 +118,8 @@ benchmark:
   unit: ratio
   command: python -m rag_knowledge_base evaluate --repetitions 5 --output benchmarks/results/retrieval-baseline.json
   result_path: benchmarks/results/retrieval-baseline.json
+  publication_result_path: benchmarks/publication/retrieval-baseline-v2.json
+  evidence_status: current
 release:
   docker: Dockerfile
   no_secret_default_path: true

@@ -60,6 +60,14 @@ $resultDir = (Resolve-Path benchmarks/results).Path
 docker run --rm -v "${resultDir}:/results" rag-knowledge-base evaluate --repetitions 5 --output /results/retrieval-baseline.json
 ```
 
+Generate the contract-valid publication result, including Docker provenance:
+
+```powershell
+python tools/benchmark_v2.py
+```
+
+The V1 execution result remains at `benchmarks/results/retrieval-baseline.json`; the V2 publication result is `benchmarks/publication/retrieval-baseline-v2.json`.
+
 ## API File Boundary
 
 API callers provide relative paths only. Corpus, questions, and index paths resolve below `RAG_DATA_ROOT` (default `data`); benchmark outputs resolve below `RAG_RESULT_ROOT` (default `benchmarks/results`). Absolute paths, `..` traversal, and paths escaping through symlinks are rejected with HTTP 400.
