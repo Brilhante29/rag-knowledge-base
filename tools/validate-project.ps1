@@ -44,6 +44,12 @@ $requiredFiles = @(
   "sdd/technical-decision.md",
   "sdd/agent-handoff.md",
   "sdd/reuse-improvement-review.md",
+  "requirements-validation.lock",
+  "requirements-test.lock",
+  ".portfolio/contracts/benchmark-result-v2.schema.json",
+  "benchmarks/publication/retrieval-baseline-v2.json",
+  "tools/benchmark_v2.py",
+  "tools/validate_publication.py",
   "src/rag_knowledge_base/infrastructure/composition.py",
   "tests/test_api.py",
   "tests/test_retrieval.py"
@@ -141,6 +147,8 @@ try {
   foreach ($file in $benchmarkFiles) {
     Invoke-Checked "benchmark JSON validation: $($file.Name)" { python -m json.tool $file.FullName | Out-Null }
   }
+
+  Invoke-Checked "publication evidence validation" { python (Join-Path $root "tools/validate_publication.py") }
 
   if (Test-Path -LiteralPath (Join-Path $root "src") -PathType Container) {
     $previousPythonPath = $env:PYTHONPATH

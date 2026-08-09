@@ -117,7 +117,7 @@ benchmark:
   primary_metric: recall_at_3
   unit: ratio
   command: python -m rag_knowledge_base evaluate --repetitions 5 --output benchmarks/results/retrieval-baseline.json
-  result_path: benchmarks/results/retrieval-baseline.json
+  result_path: benchmarks/publication/retrieval-baseline-v2.json
   publication_result_path: benchmarks/publication/retrieval-baseline-v2.json
   evidence_status: current
 release:

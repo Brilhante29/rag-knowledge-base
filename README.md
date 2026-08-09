@@ -2,7 +2,7 @@
 
 **Claim:** Local-first RAG knowledge base with deterministic vector retrieval, FastAPI serving, and reproducible Recall@k benchmark.
 
-**Benchmark:** Recall@3 = `1.00`, average query latency = `0.3175 ms`, p95 query latency = `0.4523 ms`, cost/query = `$0.000000` on the included 8-document fixture.
+**Benchmark:** Recall@3 = `1.00`, average query latency = `0.3174 ms`, p95 query latency = `0.4474 ms`, cost/query = `$0.000000` on the included 8-document fixture.
 
 ## What It Proves
 
@@ -79,8 +79,8 @@ The CLI is a trusted local interface and may receive explicit local paths.
 | Metric | Value | Unit |
 |---|---:|---|
 | recall_at_3 | 1.00 | ratio |
-| avg_latency_ms | 0.3175 | ms |
-| p95_latency_ms | 0.4523 | ms |
+| avg_latency_ms | 0.3174 | ms |
+| p95_latency_ms | 0.4474 | ms |
 | cost_per_query_usd | 0.000000 | USD |
 | repetitions | 5 | runs |
 | timed_query_samples | 35 | queries |
