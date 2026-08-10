@@ -2,12 +2,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import uuid
 from pathlib import Path
 from typing import Sequence
 
+from rag_knowledge_base import __version__
 from rag_knowledge_base.application.use_cases import (
     DEFAULT_CORPUS,
+    DEFAULT_EVAL_CASES,
     DEFAULT_INDEX,
+    DEFAULT_PREDICTION_ARTIFACT,
     DEFAULT_QUESTIONS,
     DEFAULT_REPETITIONS,
     DEFAULT_RESULT,
@@ -36,6 +41,19 @@ def main(argv: Sequence[str] | None = None) -> None:
     evaluate.add_argument("--top-k", type=int, default=3)
     evaluate.add_argument("--repetitions", type=int, default=DEFAULT_REPETITIONS)
 
+    export = subcommands.add_parser("export-eval-artifact")
+    export.add_argument("--corpus", type=Path, default=DEFAULT_CORPUS)
+    export.add_argument("--cases", type=Path, default=DEFAULT_EVAL_CASES)
+    export.add_argument("--index", type=Path, default=DEFAULT_INDEX)
+    export.add_argument("--output", type=Path, default=DEFAULT_PREDICTION_ARTIFACT)
+    export.add_argument("--top-k", type=int, default=3)
+    export.add_argument("--producer-version", default=__version__)
+    export.add_argument("--run-id", default=None)
+    export.add_argument(
+        "--source-commit",
+        default=os.environ.get("RAG_SOURCE_COMMIT", "uncommitted"),
+    )
+
     serve = subcommands.add_parser("serve")
     serve.add_argument("--host", default="0.0.0.0")
     serve.add_argument("--port", type=int, default=8000)
@@ -62,6 +80,22 @@ def main(argv: Sequence[str] | None = None) -> None:
                     args.output,
                     top_k=args.top_k,
                     repetitions=args.repetitions,
+                ),
+                indent=2,
+            )
+        )
+    elif args.command == "export-eval-artifact":
+        print(
+            json.dumps(
+                service.export_evaluation_artifact(
+                    args.corpus,
+                    args.cases,
+                    args.index,
+                    args.output,
+                    producer_version=args.producer_version,
+                    run_id=args.run_id or f"local-{uuid.uuid4()}",
+                    source_commit=args.source_commit,
+                    top_k=args.top_k,
                 ),
                 indent=2,
             )

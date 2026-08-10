@@ -8,6 +8,7 @@ from pathlib import Path
 from rag_knowledge_base.application import use_cases
 from rag_knowledge_base.application.use_cases import (
     DEFAULT_CORPUS,
+    DEFAULT_EVAL_CASES,
     DEFAULT_QUESTIONS,
     RetrievalService,
     recall_at_k,
@@ -96,6 +97,30 @@ class RetrievalTests(unittest.TestCase):
                     sample["recovered_relevant_documents"] / sample["relevant_documents"]
                 )
                 self.assertEqual(sample["recall_at_k"], expected)
+
+    def test_exports_real_retrieval_predictions_for_external_evaluator(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            service = create_local_retrieval_service()
+            artifact = service.export_evaluation_artifact(
+                DEFAULT_CORPUS,
+                DEFAULT_EVAL_CASES,
+                Path(tmp) / "index.json",
+                Path(tmp) / "predictions.json",
+                producer_version="0.2.0",
+                run_id="test-run",
+                source_commit="a" * 40,
+                top_k=3,
+            )
+
+            self.assertEqual(artifact["schema_version"], "1.0")
+            self.assertEqual(artifact["producer"]["project"], "rag-knowledge-base")
+            self.assertEqual(artifact["producer"]["source_commit"], "a" * 40)
+            self.assertEqual(len(artifact["predictions"]), 4)
+            for prediction in artifact["predictions"]:
+                self.assertTrue(prediction["prediction"])
+                self.assertGreaterEqual(prediction["latency_ms"], 0)
+                self.assertTrue(prediction["context_ids"])
+                self.assertEqual(prediction["metadata"]["mode"], "top-retrieved-context")
 
 
 if __name__ == "__main__":

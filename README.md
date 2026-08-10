@@ -4,6 +4,8 @@
 
 **Benchmark:** Recall@3 = `1.00`, average query latency = `0.3174 ms`, p95 query latency = `0.4474 ms`, cost/query = `$0.000000` on the included 8-document fixture.
 
+**System edge:** the `export-eval-artifact` command executes retrieval and emits the versioned prediction contract consumed by `llm-eval-harness`; no producer code is imported by the evaluator.
+
 ## What It Proves
 
 This repository proves a focused RAG retrieval layer:
@@ -39,6 +41,7 @@ python -m pip install -e ".[test]"
 python -m rag_knowledge_base ingest
 python -m rag_knowledge_base query "How is recall at k measured for vector search?" --top-k 3
 python -m rag_knowledge_base evaluate --repetitions 5 --output benchmarks/results/retrieval-baseline.json
+python -m rag_knowledge_base export-eval-artifact --source-commit (git rev-parse HEAD) --output data/runtime/predictions.json
 python -m unittest discover -s tests -v
 ```
 
@@ -52,6 +55,8 @@ docker run --rm -p 8000:8000 rag-knowledge-base
 ```
 
 API docs are available at `http://localhost:8000/docs`.
+
+The integration artifact evaluates the top retrieved context while retaining every top-k context ID, observed retrieval latency, producer version, run ID, and source commit. It proves an executable producer-consumer boundary; it is not presented as LLM generation.
 
 Generate a persistent benchmark result from Docker:
 

@@ -1,0 +1,4 @@
+{"id":"q1","question":"How is recall at k measured for vector search?","reference":"Recall at k measures whether a relevant document appears in the top retrieved results."}
+{"id":"q2","question":"What does a retrieval augmented generation pipeline return before generation?","reference":"A retrieval augmented generation pipeline returns grounded context before generation."}
+{"id":"q3","question":"What are the core benchmark numbers for a RAG knowledge base?","reference":"The core RAG benchmark numbers are recall at k, query latency in milliseconds, and cost per query in dollars."}
+{"id":"q4","question":"How does vector search use embeddings?","reference":"Vector search stores numeric embeddings and compares query and document vectors."}

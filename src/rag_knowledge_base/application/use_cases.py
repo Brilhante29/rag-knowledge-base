@@ -16,8 +16,10 @@ from rag_knowledge_base.domain.ports import EmbeddingProvider, VectorStore, Vect
 
 DEFAULT_CORPUS = Path("data/fixtures/corpus.jsonl")
 DEFAULT_QUESTIONS = Path("data/fixtures/questions.jsonl")
+DEFAULT_EVAL_CASES = Path("data/fixtures/answer-eval.jsonl")
 DEFAULT_INDEX = Path("data/runtime/index.json")
 DEFAULT_RESULT = Path("benchmarks/results/retrieval-baseline.json")
+DEFAULT_PREDICTION_ARTIFACT = Path("data/runtime/predictions.json")
 DEFAULT_REPETITIONS = 5
 
 
@@ -82,6 +84,75 @@ class RetrievalService:
             "answer": "\n\n".join(item["text"] for item in contexts),
             "contexts": contexts,
         }
+
+    def export_evaluation_artifact(
+        self,
+        corpus_path: Path = DEFAULT_CORPUS,
+        cases_path: Path = DEFAULT_EVAL_CASES,
+        index_path: Path = DEFAULT_INDEX,
+        output_path: Path = DEFAULT_PREDICTION_ARTIFACT,
+        *,
+        producer_version: str,
+        run_id: str,
+        source_commit: str,
+        top_k: int = 3,
+    ) -> dict[str, Any]:
+        if top_k <= 0:
+            raise ValueError("top_k must be positive")
+        for name, value in (
+            ("producer_version", producer_version),
+            ("run_id", run_id),
+            ("source_commit", source_commit),
+        ):
+            if not value.strip():
+                raise ValueError(f"{name} must be non-empty")
+
+        self.build_index(corpus_path, index_path)
+        store = self.vector_stores.load(index_path)
+        cases = _read_jsonl(cases_path)
+        if not cases:
+            raise ValueError("evaluation cases must not be empty")
+
+        seen_ids: set[str] = set()
+        predictions: list[dict[str, Any]] = []
+        for case in cases:
+            case_id = case.get("id")
+            question = case.get("question")
+            if not isinstance(case_id, str) or not case_id:
+                raise ValueError("each evaluation case must have a non-empty string id")
+            if case_id in seen_ids:
+                raise ValueError(f"duplicate evaluation case id: {case_id}")
+            if not isinstance(question, str) or not question:
+                raise ValueError(f"evaluation case {case_id} must have a question")
+            seen_ids.add(case_id)
+
+            started = time.perf_counter()
+            results = self._retrieve_from_store(question, store=store, top_k=top_k)
+            latency_ms = (time.perf_counter() - started) * 1000.0
+            predictions.append(
+                {
+                    "id": case_id,
+                    "prediction": results[0].chunk.text if results else "",
+                    "latency_ms": latency_ms,
+                    "context_ids": [result.chunk.document_id for result in results],
+                    "metadata": {"top_k": top_k, "mode": "top-retrieved-context"},
+                }
+            )
+
+        artifact = {
+            "schema_version": "1.0",
+            "producer": {
+                "project": "rag-knowledge-base",
+                "version": producer_version,
+                "run_id": run_id,
+                "source_commit": source_commit,
+            },
+            "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "predictions": predictions,
+        }
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+        return artifact
 
     def evaluate_retrieval(
         self,

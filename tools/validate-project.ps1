@@ -64,6 +64,8 @@ $requiredFiles = @(
   "src/rag_knowledge_base/infrastructure/composition.py",
   "tests/test_api.py",
   "tests/test_retrieval.py"
+  "data/fixtures/answer-eval.jsonl"
+  "contracts/prediction-artifact.schema.json"
 )
 foreach ($file in $requiredFiles) { Require-File $file }
 
