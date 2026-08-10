@@ -20,6 +20,7 @@ Project: `3 - rag-knowledge-base`
 | HTTP file-processing projects need reusable rooted-path policy tests. | `backlog` | FastAPI profile/security skill | Extract only after a second project confirms the same boundary. | recorded |
 | A deterministic retrieval harness may be reusable across RAG/embedding projects. | `backlog` | harness/templates | Compare with `embeddings-benchmark` before extracting shared code. | recorded |
 | This corpus/questions fixture should move into the kit. | `reject` | templates | It is project-specific evidence and remains here. | done |
+| The prediction artifact now has two independent adopters. | `patch_now` | contracts | Added `prediction-artifact.schema.json` to the reuse kit and kept producer/consumer code separate. | done |
 
 ## Final Gate
 

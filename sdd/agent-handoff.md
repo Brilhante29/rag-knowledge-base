@@ -10,16 +10,17 @@ Status: `published`
 - V2 Docker result: average 0.3175 ms, p95 0.4523 ms, zero paid cost.
 - Application depends on embedding/vector-store ports through `RetrievalService`.
 - HTTP filesystem access is confined by `ApiPathPolicy`.
-- Local test suite: 6 tests covering behavior, DI, metric semantics, and path security.
+- Local test suite: 7 tests covering behavior, DI, metric semantics, artifact export, and path security.
+- `export-eval-artifact` produces the contract consumed by `llm-eval-harness` without source imports between repositories.
 - V2 artifact: `benchmarks/publication/retrieval-baseline-v2.json`, validated against the central contract.
 - Exact-head GitHub Actions run `30578422267` passed for `eafd61108bb4536184c963cf45176242e3f15c57`.
 - Publication evidence: `.portfolio-control/PUBLICATION_EVIDENCE.json`.
 
 ## Continue From Here
 
-1. Treat #3 as complete in the central portfolio queue.
-2. Reuse its V2 benchmark producer, publication evidence contract, rooted API path policy, and lockfile pattern in the next project.
-3. Start project #11 only after the kit's central validator confirms the updated publication candidate.
+1. Pin the final #3 source commit in the #2 consumer-contract CI.
+2. Record exact-head CI in the central reuse kit.
+3. Keep model-backed generation outside this retrieval artifact; the exported prediction is explicitly the top retrieved context.
 
 ## Decisions
 
@@ -35,4 +36,4 @@ Status: `published`
 
 - The fixture is intentionally easy and small.
 - No model-backed embedding or production vector-store adapter exists yet.
-- No cross-repository integration test exists for the wider AI Evaluation and Retrieval program.
+- The hashing baseline can retrieve the wrong top context on harder questions; fixture results are not production retrieval quality.

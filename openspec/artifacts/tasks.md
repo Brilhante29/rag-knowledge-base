@@ -10,6 +10,8 @@
 - [x] Generate Docker benchmark evidence.
 - [x] Synchronize README, SDD, OpenSpec, and project status.
 - [x] Record reuse-kit backlog without extracting project-specific code.
+- [x] Export real retrieval predictions through `prediction-artifact/1.0`.
+- [x] Promote the cross-project prediction envelope to the reuse kit.
 
 ## Publication
 

@@ -8,6 +8,7 @@
 | Architecture/principles | `.portfolio/decision-brain/` | Clean Architecture, DIP, KISS/YAGNI decisions |
 | API style | `.portfolio/decision-brain/api-style-matrix.yaml` | REST plus CLI selection |
 | Benchmark contract | `.portfolio/contracts/benchmark-result.schema.json` | machine-readable primary result |
+| Prediction contract | `contracts/prediction-artifact.schema.json` | producer-consumer boundary with `llm-eval-harness` |
 | Local-first | `.portfolio/decision-brain/cloud-matrix.yaml` | Docker/no-secret default; no unnecessary cloud |
 | SDD/OpenSpec | `.portfolio/sdd/`, local `sdd/`, `openspec/` | traceable requirements and evidence |
 
@@ -20,6 +21,7 @@
 | rooted FastAPI path policy | likely reusable security pattern | kit backlog after second adopter |
 | explicit benchmark sample/warm-up semantics | cross-portfolio contract improvement | kit schema/harness backlog |
 | corpus and questions | project-specific evidence | reject extraction |
+| prediction artifact envelope | cross-project contract confirmed by #2 and #3 | promoted to reuse-kit contracts |
 
 ## Coupling Rule
 

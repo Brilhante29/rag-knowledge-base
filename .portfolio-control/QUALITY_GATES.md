@@ -7,7 +7,7 @@ Completion requires evidence, not intent.
 - [x] SDD and OpenSpec agree with implementation and Docker evidence.
 - [x] Application depends on domain ports, not FastAPI or infrastructure adapters.
 - [x] SOLID, DRY, KISS, YAGNI, and coupling decisions are explicit.
-- [x] Tests cover retrieval, fractional recall, DI, benchmark shape, and API path attacks.
+- [x] Tests cover retrieval, fractional recall, DI, benchmark shape, artifact export, and API path attacks.
 - [x] Docker image builds and produces the documented benchmark locally.
 - [x] A clean remote checkout and GitHub Actions run are verified.
       Evidence (2026-07-27): branch `codex/rag-knowledge-base/publication-gates`
@@ -26,4 +26,4 @@ Completion requires evidence, not intent.
 - [x] Reuse review records kit backlog and rejected extraction.
 - [x] Independent audit blockers for this repository were addressed.
 
-Publication remains blocked until the two remote/immutability gates are resolved or explicitly accepted with evidence.
+New releases remain unpublished until the central reuse kit records exact-head CI evidence.
