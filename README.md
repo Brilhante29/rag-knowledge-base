@@ -1,25 +1,59 @@
-# #3 rag-knowledge-base
+# RAG Knowledge Base: Clean-Architecture Retrieval Layer with Reproducible Evaluation
 
-**Claim:** Local-first RAG knowledge base with deterministic vector retrieval, FastAPI serving, and reproducible Recall@k benchmark.
+**Recall@3 = `1.00`** with p95 query latency `0.4474 ms` on the bundled fixture, served through FastAPI and evaluated reproducibly. Embedding model and vector store sit behind ports, so they can be swapped without touching retrieval policy.
 
-**Benchmark:** Recall@3 = `1.00`, average query latency = `0.3174 ms`, p95 query latency = `0.4474 ms`, cost/query = `$0.000000` on the included 8-document fixture.
+[![validate](https://github.com/Brilhante29/rag-knowledge-base/actions/workflows/validate.yml/badge.svg)](https://github.com/Brilhante29/rag-knowledge-base/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Python 3.12](https://img.shields.io/badge/python-3.12-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
 
-**System edge:** the `export-eval-artifact` command executes retrieval and emits the versioned prediction contract consumed by `llm-eval-harness`; no producer code is imported by the evaluator.
+## Why this exists
 
-## What It Proves
+Most RAG demos glue an embedding API to a vector database and call it done. When answers go wrong, nobody can tell whether retrieval or generation failed, and the vendor choice is baked into every layer. This repository builds the retrieval half the way it should be built before an LLM is added:
 
-This repository proves a focused RAG retrieval layer:
+- domain ports for embeddings and vector storage, with local adapters chosen in one composition root;
+- per-question Recall@k (`recovered relevant / total relevant`), so a question with two relevant documents can score `0.5`;
+- an API that resolves only relative paths under configured roots and rejects traversal and symlink escapes with HTTP 400;
+- an `export-eval-artifact` command that emits a versioned prediction contract, consumed by [llm-eval-harness](https://github.com/Brilhante29/llm-eval-harness) without importing this code.
 
-- JSONL ingestion, deterministic local hashing embeddings, and persisted vector search
-- per-question Recall@k as `recovered relevant / total relevant`
-- five complete benchmark repetitions and 35 timed query samples
-- use cases injected with embedding and vector-store ports
-- FastAPI paths confined to configured data and result roots
-- CLI and Docker execution without paid secrets or model downloads
+It runs offline with deterministic hashing embeddings: no paid API, no model download, no secret.
 
-The included fixture is intentionally small. Recall@3 = 1.00 proves that the local pipeline and metric contract execute correctly on this fixture; it is not evidence of production retrieval quality.
+## Results
 
-## Architecture
+| Metric | Value | Unit |
+|---|---:|---|
+| recall_at_3 | 1.00 | ratio |
+| avg_latency_ms | 0.3174 | ms |
+| p95_latency_ms | 0.4474 | ms |
+| cost_per_query_usd | 0.000000 | USD |
+| repetitions | 5 | runs |
+| timed_query_samples | 35 | queries |
+
+Five complete repetitions with 35 timed query samples; seven warm-up queries are excluded. The primary metric is the macro mean of per-question Recall@3.
+
+The fixture is intentionally tiny (8 documents, 7 questions), so a perfect recall proves the pipeline and metric contract, not production retrieval quality. Swapping in a neural embedding adapter, as compared in [embeddings-benchmark](https://github.com/Brilhante29/embeddings-benchmark), is the intended next step.
+
+## Quickstart
+
+```bash
+docker build -t rag-knowledge-base .
+docker run --rm -p 8000:8000 rag-knowledge-base
+# interactive API docs: http://localhost:8000/docs
+```
+
+Local CLI:
+
+```bash
+python -m pip install -e ".[test]"
+python -m rag_knowledge_base ingest
+python -m rag_knowledge_base query "How is recall at k measured for vector search?" --top-k 3
+python -m rag_knowledge_base evaluate --repetitions 5 --output benchmarks/results/retrieval-baseline.json
+python -m unittest discover -s tests -v
+```
+
+Publication evidence with Docker provenance: `python tools/benchmark_v2.py`.
+
+## How it works
 
 ```mermaid
 flowchart LR
@@ -32,86 +66,63 @@ flowchart LR
   Service --> Result["Benchmark JSON"]
 ```
 
-The application layer imports domain ports only. CLI and FastAPI select the local adapters through `infrastructure/composition.py`, so another embedding or vector store can replace them without changing retrieval policy.
+| Layer | Contents |
+|---|---|
+| `domain/` | Models and the `EmbeddingProvider` / `VectorStore` ports |
+| `application/` | Chunking and retrieval use cases, depending on ports only |
+| `infrastructure/` | Hashing embeddings, JSON vector store, composition root |
+| `interfaces/` | FastAPI and CLI adapters |
 
-## Run Locally
+## Design decisions
 
-```powershell
-python -m pip install -e ".[test]"
-python -m rag_knowledge_base ingest
-python -m rag_knowledge_base query "How is recall at k measured for vector search?" --top-k 3
-python -m rag_knowledge_base evaluate --repetitions 5 --output benchmarks/results/retrieval-baseline.json
-python -m rag_knowledge_base export-eval-artifact --source-commit (git rev-parse HEAD) --output data/runtime/predictions.json
-python -m unittest discover -s tests -v
+| Decision | Why | Rejected for now |
+|---|---|---|
+| Clean architecture with ports | Retrieval policy must outlive the vendor choice | Framework-first code calling a vendor SDK everywhere |
+| Deterministic hashing embeddings | Offline, free, bit-reproducible baseline | Paid embedding APIs as a default dependency |
+| JSON vector store | Enough for the fixture, trivially inspectable | Qdrant or pgvector before scale demands it |
+| REST over HTTP | Command-oriented operations | GraphQL (no flexible-read need here) |
+| Synchronous pipeline | Ingest, query, and evaluate are request-scoped | A message broker |
+
+## Limitations
+
+- Retrieval only: no LLM generation, reranking, or answer grounding check in this repository.
+- Hashing embeddings capture token overlap, not semantics.
+- The fixture is too small to rank retrieval strategies; it validates correctness and contracts.
+
+## Reproducibility
+
+- Raw result: [`benchmarks/results/retrieval-baseline.json`](benchmarks/results/retrieval-baseline.json).
+- Publication result with source commit, image digest, lock digest, and CI provenance: [`benchmarks/publication/retrieval-baseline-v2.json`](benchmarks/publication/retrieval-baseline-v2.json).
+- Dataset: `data/fixtures/corpus.jsonl` (8 documents) and `data/fixtures/questions.jsonl` (7 questions, one with two relevant documents).
+
+## Project structure
+
+```text
+src/rag_knowledge_base/   domain, application, infrastructure, interfaces
+tests/                    retrieval and API boundary tests
+data/                     corpus and evaluation questions
+benchmarks/               raw results and V2 publication evidence
+tools/                    V2 producer and validators
+sdd/  openspec/           specification, architecture and technical decisions
 ```
 
-Without an editable install, set `PYTHONPATH=src` before the Python commands.
+## How this repository is built
 
-## Run With Docker
+The project follows the spec-driven workflow of [portfolio-reuse-kit](https://github.com/Brilhante29/portfolio-reuse-kit). Requirements and decisions live in [`sdd/`](sdd) and [`openspec/`](openspec), and [`project.yaml`](project.yaml) records the architecture, stack, and rejected alternatives. Development is AI-assisted and human-governed: [`AGENTS.md`](AGENTS.md) and [`CLAUDE.md`](CLAUDE.md) hold the coding-agent instructions, while tests, validators, and CI decide what gets published.
 
-```powershell
-docker build -t rag-knowledge-base .
-docker run --rm -p 8000:8000 rag-knowledge-base
-```
+## Related work
 
-API docs are available at `http://localhost:8000/docs`.
+- [llm-eval-harness](https://github.com/Brilhante29/llm-eval-harness): evaluates the predictions this repository exports.
+- [embeddings-benchmark](https://github.com/Brilhante29/embeddings-benchmark): neural embedding models compared under one port.
+- [prompt-ab-testing](https://github.com/Brilhante29/prompt-ab-testing) and [llm-agent-eval](https://github.com/Brilhante29/llm-agent-eval): the generation and agent side.
 
-The integration artifact evaluates the top retrieved context while retaining every top-k context ID, observed retrieval latency, producer version, run ID, and source commit. It proves an executable producer-consumer boundary; it is not presented as LLM generation.
+See [`REFERENCES.md`](REFERENCES.md) for attribution.
 
-Generate a persistent benchmark result from Docker:
+## Author
 
-```powershell
-$resultDir = (Resolve-Path benchmarks/results).Path
-docker run --rm -v "${resultDir}:/results" rag-knowledge-base evaluate --repetitions 5 --output /results/retrieval-baseline.json
-```
+**Guilherme Brilhante**, software engineer working on scalable backends and production AI.
+[LinkedIn](https://www.linkedin.com/in/guilhermefreirebrilhanteseveriano/) · [GitHub](https://github.com/Brilhante29) · [Publications](https://dblp.org/pid/353/6812.html)
 
-Generate the contract-valid publication result, including Docker provenance:
+## License
 
-```powershell
-python tools/benchmark_v2.py
-```
-
-The V1 execution result remains at `benchmarks/results/retrieval-baseline.json`; the V2 publication result is `benchmarks/publication/retrieval-baseline-v2.json`.
-
-## API File Boundary
-
-API callers provide relative paths only. Corpus, questions, and index paths resolve below `RAG_DATA_ROOT` (default `data`); benchmark outputs resolve below `RAG_RESULT_ROOT` (default `benchmarks/results`). Absolute paths, `..` traversal, and paths escaping through symlinks are rejected with HTTP 400.
-
-The CLI is a trusted local interface and may receive explicit local paths.
-
-## Benchmark Result
-
-| Metric | Value | Unit |
-|---|---:|---|
-| recall_at_3 | 1.00 | ratio |
-| avg_latency_ms | 0.3174 | ms |
-| p95_latency_ms | 0.4474 | ms |
-| cost_per_query_usd | 0.000000 | USD |
-| repetitions | 5 | runs |
-| timed_query_samples | 35 | queries |
-
-Each repetition evaluates all seven questions. Recall@k is computed for each question as the number of relevant documents recovered in the top k divided by that question's total relevant documents; the primary metric is the macro mean across questions and repetitions. Seven warm-up queries are excluded from latency samples.
-
-Publication result: `benchmarks/publication/retrieval-baseline-v2.json`. The V1 execution result remains at `benchmarks/results/retrieval-baseline.json`. Environment: Python 3.12.13 in the Linux Docker image on Docker Desktop/WSL2; the V2 artifact includes the exact source commit, image digest, lock digest, and CI provenance.
-
-## Dataset
-
-- `corpus.jsonl`: 8 small documents about RAG and repository engineering.
-- `questions.jsonl`: 7 questions; one has two relevant documents to exercise fractional Recall@k.
-
-## Design Decisions
-
-- Deterministic hashing embeddings keep the baseline offline and free.
-- Qdrant and model-backed embeddings remain future adapters, not default dependencies.
-- REST/HTTP fits the command-oriented API; GraphQL adds no value to this proof.
-- No broker is used because ingestion, query, and evaluation are synchronous.
-
-## Validation
-
-```powershell
-powershell -ExecutionPolicy Bypass -File tools/validate-project.ps1
-```
-
-## References
-
-See `REFERENCES.md`.
+[MIT](LICENSE).
